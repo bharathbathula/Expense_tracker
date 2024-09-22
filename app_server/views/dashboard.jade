@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  .row.banner
+    .col-12
+      h1 Expense Tracker
+      small &nbsp;
+
+  .row
+    .col-12.col-md-8
+      .card
+        .card-block
+          h4
+            a(href="/transactions") Recent Transactions
+          small &nbsp;
+          span.badge.badge-pill.badge-default.float-right 30 days
+          p.address Total Expenses: $2000.00
+          p.facilities
+            span.badge.badge-warning Total Income: $3000.00
+            span.badge.badge-warning Balance: $1000.00
+            span.badge.badge-warning Expense Categories
+          p
+            | Your most recent transactions are listed here. You can add new expenses, view detailed reports, and track your spending to stay on top of your budget.
+
+    .col-12.col-md-4
+      p.lead
+        | Looking to keep track of your spending and manage your budget? Expense Tracker helps you monitor your expenses, analyze spending patterns, and stay within your financial goals. Whether it's for personal finance or business expenses, our tool provides the insights you need.
+      p
+        | Start by viewing your recent transactions, adding new expenses, or exploring detailed reports to get a better understanding of your financial situation.
+

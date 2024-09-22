@@ -1,0 +1,36 @@
+extends layout
+
+block content
+  .row.banner
+    .col-12
+      h1 Add New Expense
+
+  .row
+    .col-12.col-md-8
+      form(action="/expenses", method="post", role="form")
+        .form-group.row
+          label.col-10.col-sm-2.col-form-label(for="description") Description
+          .col-12.col-sm-10
+            input#description.form-control(name="description", placeholder="e.g., Coffee at Starbucks", required)
+        .form-group.row
+          label.col-10.col-sm-2.col-form-label(for="amount") Amount
+          .col-12.col-sm-10
+            input#amount.form-control(type="number", name="amount", step="0.01", placeholder="e.g., 5.00", required)
+        .form-group.row
+          label.col-10.col-sm-2.col-form-label(for="date") Date
+          .col-12.col-sm-10
+            input#date.form-control(type="date", name="date", required)
+        .form-group.row
+          label.col-10.col-sm-2.col-form-label(for="category") Category
+          .col-12.col-sm-10
+            select#category.form-control(name="category", required)
+              option(value="Food & Drink") Food & Drink
+              option(value="Transportation") Transportation
+              option(value="Rent") Rent
+              option(value="Groceries") Groceries
+              option(value="Entertainment") Entertainment
+              option(value="Other") Other
+        button.btn.btn-primary.float-right(type="submit") Add Expense
+
+  .col-12.col-md-4 
+    // Optional additional content or information 
