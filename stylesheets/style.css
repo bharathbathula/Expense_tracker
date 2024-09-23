@@ -1,0 +1,116 @@
+@import url("//fonts.googleapis.com/css?family=Roboto|Playfair+Display:400,700");
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Playfair Display", serif;
+}
+
+legend {
+  font-family: "Playfair Display", serif;
+}
+
+.navbar {
+  background-color: #f4a261; /* Soft Orange */
+  border-color: #e9c46a; /* Light Yellow */
+}
+
+.navbar-light .navbar-brand {
+  font-family: "Playfair Display", serif;
+  color: #264653; /* Dark Teal */
+}
+
+.navbar-light .navbar-toggler {
+  color: #264653; /* Dark Teal */
+  border-color: #264653; /* Dark Teal */
+}
+
+.navbar-light .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23264653' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.navbar-light .navbar-nav .nav-link,
+.navbar-light .navbar-nav .nav-link:focus,
+.navbar-light .navbar-nav .nav-link:hover {
+  color: #264653; /* Dark Teal */
+}
+
+.card {
+  background-color: #e9c46a; /* Light Yellow */
+  padding: 1rem;
+}
+
+.card-primary {
+  border-color: #f4a261; /* Soft Orange */
+  margin-bottom: 0.5rem;
+}
+
+.banner {
+  margin-top: 4em;
+  border-bottom: 1px solid #264653; /* Dark Teal */
+  margin-bottom: 1.5em;
+  padding-bottom: 0.5em;
+}
+
+.review-header {
+  background-color: #2a9d8f; /* Soft Green */
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.review {
+  margin-right: -16px;
+  margin-left: -16px;
+  margin-bottom: 0.5em;
+}
+
+.badge-default,
+.btn-primary {
+  background-color: #f4a261; /* Soft Orange */
+  border-color: #2a9d8f; /* Soft Green */
+}
+
+h4 a,
+h4 a:hover {
+  color: #264653; /* Dark Teal */
+}
+
+h4 small {
+  font-size: 60%;
+  line-height: 200%;
+  color: #6d6875; /* Muted Purple */
+}
+
+h1 small {
+  color: #6d6875; /* Muted Purple */
+}
+
+.address {
+  margin-bottom: 0.5rem;
+}
+
+.facilities span.badge {
+  margin-right: 2px;
+}
+
+p {
+  margin-bottom: 0.65rem;
+}
+
+a {
+  color: rgba(38, 70, 83, 0.8); /* Dark Teal with opacity */
+}
+
+a:hover {
+  color: #264653; /* Dark Teal */
+}
+
+body {
+  font-family: "Roboto", Arial, sans-serif;
+  color: #264653; /* Dark Teal */
+  background-color: #f1faee; /* Light Cream */
+}

@@ -1,0 +1,89 @@
+extends layout
+
+block content
+  .row.banner
+    .col-12
+      h1 Recent Transactions
+      p Here you can view your latest transactions and analyze your spending habits.
+
+  .row
+    .col-12.col-lg-9
+      .row
+        .col-12.col-md-6
+          h2 Your Expenses
+          .card.card-primary
+            .card-header
+              h5 Latest Transactions
+              button.btn.btn-secondary.float-right(id="reset-button") Reset Filters
+            .card-block
+              ul.list-group
+                // Limit to the latest 5 transactions
+                each expense in expenses.slice(0, 5)
+                  li.list-group-item
+                    .row
+                      .col-8= expense.description
+                      .col-4.text-right= '$' + expense.amount
+
+              // Move the Add Expense button here
+              a.btn.btn-primary.mt-3(href='/transactions/addexpense') Add New Expense
+
+        // Pie Chart
+        .col-12.col-md-6
+          .card.card-secondary
+            .card-header
+              h5 Expense Distribution
+            .card-body
+              canvas#expenseChart
+
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js")
+  script.
+    document.addEventListener('DOMContentLoaded', function() {
+      const ctx = document.getElementById('expenseChart').getContext('2d');
+      const expenseData = {
+        labels: !{JSON.stringify(expenses.map(exp => exp.category))},
+        datasets: [{
+          label: 'Expenses by Category',
+          data: !{JSON.stringify(expenses.map(exp => exp.amount))},
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.8)', // Darker shade
+            'rgba(54, 162, 235, 0.8)', // Darker shade
+            'rgba(255, 206, 86, 0.8)', // Darker shade
+            'rgba(75, 192, 192, 0.8)', // Darker shade
+            'rgba(153, 102, 255, 0.8)', // Darker shade
+            'rgba(255, 159, 64, 0.8)' // Darker shade
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+        }]
+      };
+      const expenseChart = new Chart(ctx, {
+        type: 'pie',
+        data: expenseData,
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            title: {
+              display: true,
+              text: 'Expense Distribution by Category'
+            }
+          }
+        }
+      });
+
+      // Reset button functionality
+      document.getElementById('reset-button').addEventListener('click', function() {
+        alert('Filters have been reset!');
+        // For now, it simply reloads the page.
+        location.reload(); // Reload the page to reset filters
+      });
+    });
