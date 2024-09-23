@@ -1,6 +1,11 @@
-extends layout
-
 block content
   h1= message
-  h2= error.status
+  h2= error.status || "Unknown Error"
   pre #{error.stack}
+
+  // Set a default title if not provided
+  if typeof title === 'undefined'
+    - var title = 'Error Page'
+  
+  // You can display the title or use it in the layout as needed
+  h3= title

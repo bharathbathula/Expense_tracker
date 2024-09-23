@@ -3,7 +3,8 @@ extends layout
 block content
   .row.banner
     .col-12
-      h1 Expense Tracker
+      h1 Recent Transactions
+      p Here you can view your latest transactions and analyze your spending habits.
 
   .row
     .col-12.col-lg-9
@@ -11,63 +12,78 @@ block content
         .col-12.col-md-6
           h2 Your Expenses
           .card.card-primary
+            .card-header
+              h5 Latest Transactions
+              button.btn.btn-secondary.float-right(id="reset-button") Reset Filters
             .card-block
-              h3.card-title Latest Transactions
               ul.list-group
-                li.list-group-item
-                  .row
-                    .col-8 Transaction at Starbucks
-                    .col-4.text-right -$5.00
-                li.list-group-item
-                  .row
-                    .col-8 Grocery Shopping
-                    .col-4.text-right -$50.00
-                li.list-group-item
-                  .row
-                    .col-8 Monthly Rent
-                    .col-4.text-right -$1200.00
-          .card.card-primary
-            .card-block
-              h3.card-title Summary
-              p.card-text Total Income: $3000.00
-              p.card-text Total Expenses: $2000.00
-              p.card-text Balance: $1000.00
+                // Limit to the latest 5 transactions
+                each expense in expenses.slice(0, 5)
+                  li.list-group-item
+                    .row
+                      .col-8= expense.description
+                      .col-4.text-right= '$' + expense.amount
 
+              // Move the Add Expense button here
+              a.btn.btn-primary.mt-3(href='/transactions/addexpense') Add New Expense
+
+        // Pie Chart
         .col-12.col-md-6
-          .card.card-primary
-            .card-block
-              h2.card-title Expense Chart
-              img.img-fluid.rounded(
-                src='https://www.exceldemy.com/wp-content/uploads/2022/06/How-to-make-a-budget-pie-chart-in-excel-10.png'
-              )
+          .card.card-secondary
+            .card-header
+              h5 Expense Distribution
+            .card-body
+              canvas#expenseChart
 
-  .row
-    .col-12
-      .card.card-primary
-        .card-block
-          a.btn.btn-primary.float-right(href='/transactions/addexpense') Add New Expense
-          h2.card-title Expense History
-          .row.expense
-            .col-12.no-gutters.expense-header
-              span.category Food & Drink
-              small.timestamp 16 August 2024
-            .col-12
-              p Bought coffee at Starbucks for $5.00
-          .row.expense
-            .col-12.no-gutters.expense-header
-              span.category Rent
-              small.timestamp 1 August 2024
-            .col-12
-              p Paid rent for August - $1200.00
-          .row.expense
-            .col-12.no-gutters.expense-header
-              span.category Groceries
-              small.timestamp 10 August 2024
-            .col-12
-              p Grocery shopping at SuperMart - $50.00
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js")
+  script.
+    document.addEventListener('DOMContentLoaded', function() {
+      const ctx = document.getElementById('expenseChart').getContext('2d');
+      const expenseData = {
+        labels: !{JSON.stringify(expenses.map(exp => exp.category))},
+        datasets: [{
+          label: 'Expenses by Category',
+          data: !{JSON.stringify(expenses.map(exp => exp.amount))},
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.8)', // Darker shade
+            'rgba(54, 162, 235, 0.8)', // Darker shade
+            'rgba(255, 206, 86, 0.8)', // Darker shade
+            'rgba(75, 192, 192, 0.8)', // Darker shade
+            'rgba(153, 102, 255, 0.8)', // Darker shade
+            'rgba(255, 159, 64, 0.8)' // Darker shade
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+        }]
+      };
+      const expenseChart = new Chart(ctx, {
+        type: 'pie',
+        data: expenseData,
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            title: {
+              display: true,
+              text: 'Expense Distribution by Category'
+            }
+          }
+        }
+      });
 
-    .col-12.col-lg-3
-      p.lead
-        | Keep track of your spending habits and manage your budget effectively with our easy-to-use expense tracker.
-      p
-        | Add your daily expenses, review your financial history, and stay on top of your finances.
+      // Reset button functionality
+      document.getElementById('reset-button').addEventListener('click', function() {
+        alert('Filters have been reset!');
+        // For now, it simply reloads the page.
+        location.reload(); // Reload the page to reset filters
+      });
+    });
