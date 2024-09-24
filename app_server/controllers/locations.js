@@ -77,19 +77,42 @@ const createExpense = async (req, res) => {
   }
 };
 
-/* GET 'transactions' page */
+// locations.js (controller)
 const transactionInfo = async (req, res) => {
   try {
-    const expenses = await Expense.find().sort({ date: -1 }); // Get all transactions
+    // Fetch all expenses from the database, sorted by date (most recent first)
+    const expenses = await Expense.find().sort({ date: -1 });
+
+    // Aggregate expenses by category
+    const aggregatedExpenses = expenses.reduce((acc, expense) => {
+      if (acc[expense.category]) {
+        acc[expense.category].amount += expense.amount;
+      } else {
+        acc[expense.category] = {
+          category: expense.category,
+          amount: expense.amount,
+        };
+      }
+      return acc;
+    }, {});
+
+    // Convert the aggregated expenses object back to an array
+    const aggregatedExpenseArray = Object.values(aggregatedExpenses);
+
+    // Render the transactions page with both recent expenses and aggregated data
     res.render("transactions", {
       title: "Recent Transactions",
-      expenses,
+      expenses, // Raw list of expenses for showing latest transactions
+      aggregatedExpenses: aggregatedExpenseArray, // Aggregated data for pie chart
     });
   } catch (error) {
     console.error("Error fetching transactions:", error);
+
+    // In case of error, render the page with empty arrays
     res.render("transactions", {
       title: "Recent Transactions",
       expenses: [],
+      aggregatedExpenses: [], // Empty array in case of failure
     });
   }
 };

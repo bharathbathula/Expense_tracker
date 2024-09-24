@@ -22,12 +22,12 @@ block content
                   li.list-group-item
                     .row
                       .col-8= expense.description
-                      .col-4.text-right= '$' + expense.amount
+                      .col-4.text-right= '₹' + expense.amount
 
-              // Move the Add Expense button here
+              // Add Expense button
               a.btn.btn-primary.mt-3(href='/transactions/addexpense') Add New Expense
 
-        // Pie Chart
+        // Pie Chart Section
         .col-12.col-md-6
           .card.card-secondary
             .card-header
@@ -39,18 +39,22 @@ block content
   script.
     document.addEventListener('DOMContentLoaded', function() {
       const ctx = document.getElementById('expenseChart').getContext('2d');
+
+      // Pass aggregatedExpenses from server to client-side JS as a string, then parse it into an object
+      const aggregatedExpenses = !{JSON.stringify(aggregatedExpenses)}; // Ensure this is correctly referenced
+
       const expenseData = {
-        labels: !{JSON.stringify(expenses.map(exp => exp.category))},
+        labels: aggregatedExpenses.map(exp => exp.category), // Aggregated data for labels (category names)
         datasets: [{
           label: 'Expenses by Category',
-          data: !{JSON.stringify(expenses.map(exp => exp.amount))},
+          data: aggregatedExpenses.map(exp => exp.amount), // Aggregated data for amounts (sums of each category)
           backgroundColor: [
-            'rgba(255, 99, 132, 0.8)', // Darker shade
-            'rgba(54, 162, 235, 0.8)', // Darker shade
-            'rgba(255, 206, 86, 0.8)', // Darker shade
-            'rgba(75, 192, 192, 0.8)', // Darker shade
-            'rgba(153, 102, 255, 0.8)', // Darker shade
-            'rgba(255, 159, 64, 0.8)' // Darker shade
+            'rgba(255, 99, 132, 0.8)', 
+            'rgba(54, 162, 235, 0.8)', 
+            'rgba(255, 206, 86, 0.8)', 
+            'rgba(75, 192, 192, 0.8)', 
+            'rgba(153, 102, 255, 0.8)', 
+            'rgba(255, 159, 64, 0.8)' 
           ],
           borderColor: [
             'rgba(255, 99, 132, 1)',
@@ -63,6 +67,8 @@ block content
           borderWidth: 1
         }]
       };
+
+      // Initialize Pie Chart
       const expenseChart = new Chart(ctx, {
         type: 'pie',
         data: expenseData,
@@ -83,7 +89,6 @@ block content
       // Reset button functionality
       document.getElementById('reset-button').addEventListener('click', function() {
         alert('Filters have been reset!');
-        // For now, it simply reloads the page.
         location.reload(); // Reload the page to reset filters
       });
     });
